@@ -1,0 +1,431 @@
+/* stylelint-disable */
+/* This file uses Tailwind CSS directives - https://tailwindcss.com/docs/functions-and-directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset et styles de base */
+@layer base {
+  /* Reset des marges et paddings */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Styles de base pour le body */
+  body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+    line-height: 1.6;
+  }
+
+  /* Styles de base pour la typographie */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1.5rem 0 1rem;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2.25rem; /* 36px */
+    color: #2e7d32; /* Vert principal */
+  }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.875rem; /* 30px */
+    color: #2e7d32; /* Vert principal */
+  }
+
+  h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem; /* 24px */
+    color: #ff6d00; /* Orange dynamique */
+  }
+
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1.25rem; /* 20px */
+    color: #2e7d32; /* Vert principal */
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: #4a4a4a;
+  }
+
+  a {
+    color: #2e7d32; /* Vert principal */
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: #ff6d00; /* Orange dynamique au survol */
+  }
+
+  /* Styles pour l'élément racine */
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
+    
+    /* Couleurs de la charte graphique */
+    /* Vert Santé (confiance) - Couleur principale */
+    --color-health-green: #2e7d32;
+    --color-health-green-light: #60ad5e;
+    --color-health-green-dark: #005005;
+    
+    /* Orange Dynamique (action) - Boutons et indicateurs */
+    --color-dynamic-orange: #ff6d00;
+    --color-dynamic-orange-light: #ff9e40;
+    --color-dynamic-orange-dark: #c43c00;
+    
+    /* Blanc (clarté) - Arrière-plans */
+    --color-pure-white: #ffffff;
+    
+    /* Gris doux - Textes secondaires */
+    --color-soft-gray: #757575;
+    --color-soft-gray-light: #e0e0e0;
+    --color-soft-gray-lighter: #f5f5f5;
+    
+    /* Autres couleurs fonctionnelles */
+    --color-success: #4caf50;
+    --color-warning: #ff9800;
+    --color-error: #f44336;
+    --color-info: #2196f3;
+    
+    /* Alias pour la rétrocompatibilité */
+    --color-primary: var(--color-health-green);
+    --color-secondary: var(--color-dynamic-orange);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 0, 0, 0;
+      --background-end-rgb: 0, 0, 0;
+    }
+  }
+
+  /* Styles de base pour html et body */
+  html {
+    @apply h-full text-base md:text-[16px] lg:text-[17px];
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply min-h-screen w-full bg-white text-[var(--color-health-green)] antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    line-height: 1.5;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Conteneur principal */
+  #root {
+    @apply min-h-screen w-full flex flex-col;
+  }
+
+  /* Correction pour les images responsives */
+  img,
+  svg,
+  video {
+    @apply max-w-full h-auto block;
+  }
+
+  /* Styles pour les liens */
+  a {
+    @apply text-primary hover:text-primary-700 transition-colors;
+  }
+
+  /* Conteneur personnalisé */
+  .container-fix {
+    @apply w-full max-w-none mx-auto px-4;
+  }
+
+  @screen sm {
+    .container-fix {
+      @apply px-6;
+    }
+  }
+
+  @screen lg {
+    .container-fix {
+      @apply max-w-7xl;
+    }
+  }
+
+  /* Styles de base pour les éléments HTML */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+  h5 { @apply text-lg md:text-xl; }
+  h6 { @apply text-base md:text-lg; }
+
+  p {
+    @apply leading-relaxed text-gray-600;
+  }
+
+  /* Styles pour les formulaires */
+  input,
+  button,
+  select,
+  textarea {
+    @apply rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  button {
+    @apply px-4 py-2 font-medium transition-colors duration-200;
+  }
+}
+
+/* Composants personnalisés */
+@layer components {
+  /* Boutons */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none;
+    min-height: 2.5rem;
+    padding: 0.5rem 1.25rem;
+  }
+  
+  /* Bouton principal */
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+  
+  /* Bouton secondaire */
+  .btn-secondary {
+    @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500;
+  }
+  
+  /* Bouton tertiaire */
+  .btn-tertiary {
+    @apply bg-white text-primary-700 border border-gray-300 hover:bg-gray-50 focus:ring-primary-500;
+  }
+  
+  /* Bouton d'alerte/action */
+  .btn-warning {
+    @apply bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500;
+  }
+  
+  /* Bouton de suppression */
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  /* Bouton avec icône */
+  .btn-icon {
+    @apply p-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-900;
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+  
+  .badge-secondary {
+    @apply bg-secondary-100 text-secondary-800;
+  }
+  
+  .badge-success {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .badge-error {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  /* Cartes */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+  }
+  
+  .card-header {
+    @apply px-4 py-3 border-b border-gray-200 bg-gray-50;
+  }
+  
+  .card-body {
+    @apply p-4;
+  }
+  
+  .card-footer {
+    @apply px-4 py-3 border-t border-gray-200 bg-gray-50;
+  }
+  
+  /* Formulaire */
+  .form-input {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  
+  .form-error {
+    @apply mt-1 text-sm text-red-600;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+  
+  .btn-primary {
+    @apply bg-[var(--color-dynamic-orange)] text-white hover:bg-[var(--color-dynamic-orange-dark)];
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary/80;
+  }
+  
+  .btn-destructive {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+  
+  .btn-outline {
+    @apply border border-gray-300 hover:bg-gray-100 text-gray-700;
+  }
+  
+  .btn-ghost {
+    @apply hover:bg-gray-100 text-gray-700;
+  }
+  
+  .btn-link {
+    @apply text-primary hover:text-primary-700 underline-offset-4 hover:underline;
+  }
+
+  /* Styles pour les cartes */
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden border border-gray-200;
+  }
+
+  /* Styles pour les badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-[var(--color-health-green)] text-white;
+  }
+
+  .badge-success {
+    @apply bg-[var(--color-health-green-light)] text-white;
+  }
+
+  .badge-warning {
+    @apply bg-[var(--color-dynamic-orange)] text-white;
+  }
+
+  .badge-error {
+    @apply bg-[var(--color-error)] text-white;
+  }
+
+  /* Styles pour les alertes */
+  .alert {
+    @apply p-4 rounded-lg border;
+  }
+
+  .alert-info {
+    @apply bg-blue-50 border-blue-200 text-blue-800;
+  }
+
+  .alert-success {
+    @apply bg-green-50 border-green-200 text-green-800;
+  }
+
+  .alert-warning {
+    @apply bg-yellow-50 border-yellow-200 text-yellow-800;
+  }
+
+  .alert-error {
+    @apply bg-red-50 border-red-200 text-red-800;
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Personnalisation de la barre de défilement */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full hover:bg-gray-500;
+}
+
+::-webkit-scrollbar-thumb:active {
+  @apply bg-gray-600;
+}
+
+/* Styles pour les messages d'erreur */
+.error-message {
+  @apply text-sm text-red-600 mt-1;
+}
