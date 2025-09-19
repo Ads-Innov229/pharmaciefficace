@@ -10,8 +10,6 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
     "lint": "eslint . --config eslint.config.js",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
   },
@@ -64,7 +62,6 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",
     "postcss-nested": "^7.0.2",

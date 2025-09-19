@@ -114,25 +114,129 @@ build_app() {
     fi
 }
 
-# Fonction pour déployer l'application
+# Fonction pour déployer l'application PharmaciEfficace
 deploy_app() {
+    local timestamp=$(date +%Y%m%d%H%M%S)
+    local build_dir="dist"
+    local backup_dir="backup_${timestamp}"
+    
     log "Démarrage du déploiement pour l'environnement $ENV..."
+    
+    # Créer un fichier de version
+    echo "Version: $VERSION" > "$build_dir/version.txt"
+    echo "Environnement: $ENV" >> "$build_dir/version.txt"
+    echo "Date: $(date)" >> "$build_dir/version.txt"
     
     case $ENV in
         dev)
-            # Configuration pour l'environnement de développement
             log "Configuration pour l'environnement de développement"
-            # Ajoutez ici les commandes spécifiques pour le déploiement en dev
+            
+            # Vérifier si le dossier de destination existe
+            local dev_dir="/var/www/pharmacie-efficace-dev"
+            
+            # Créer un backup de l'ancienne version
+            if [ -d "$dev_dir" ]; then
+                log "Création d'un backup de l'ancienne version..."
+                mkdir -p "$backup_dir"
+                cp -r "$dev_dir" "./$backup_dir/"
+            fi
+            
+            # Copier les fichiers de l'application
+            log "Déploiement de la nouvelle version..."
+            mkdir -p "$dev_dir"
+            rsync -av --delete "$build_dir/" "$dev_dir/"
+            
+            # Définir les permissions
+            chmod -R 755 "$dev_dir"
+            chown -R www-data:www-data "$dev_dir"
+            
+            log "Déploiement en développement terminé avec succès!"
+            log "URL: https://dev.pharmacie-efficace.com"
             ;;
+            
         staging)
-            # Configuration pour l'environnement de staging
             log "Configuration pour l'environnement de staging"
-            # Ajoutez ici les commandes spécifiques pour le déploiement en staging
+            
+            # Configuration pour le déploiement sur un serveur distant via SSH
+            local staging_server="staging.pharmacie-efficace.com"
+            local ssh_user="deploy"
+            local remote_dir="/var/www/pharmacie-efficace-staging"
+            
+            # Vérifier la connexion SSH
+            if ! ssh -q -o BatchMode=yes -o ConnectTimeout=5 $ssh_user@$staging_server exit 2>/dev/null; then
+                log "ERREUR: Impossible de se connecter au serveur de staging"
+                exit 1
+            fi
+            
+            # Créer un backup distant
+            log "Création d'un backup sur le serveur de staging..."
+            ssh $ssh_user@$staging_server "mkdir -p $remote_dir/../backups/$backup_dir && \
+                                         cp -r $remote_dir/* $remote_dir/../backups/$backup_dir/ 2>/dev/null || true"
+            
+            # Synchroniser les fichiers
+            log "Synchronisation des fichiers avec le serveur de staging..."
+            rsync -avz --delete -e ssh "$build_dir/" "$ssh_user@$staging_server:$remote_dir/"
+            
+            # Redémarrer le service si nécessaire
+            log "Redémarrage des services..."
+            ssh $ssh_user@$staging_server "chown -R $ssh_user:www-data $remote_dir && \
+                                         chmod -R 755 $remote_dir && \
+                                         systemctl reload nginx || true"
+            
+            log "Déploiement en staging terminé avec succès!"
+            log "URL: https://staging.pharmacie-efficace.com"
             ;;
+            
         prod)
-            # Configuration pour l'environnement de production
             log "Configuration pour l'environnement de production"
-            # Ajoutez ici les commandes spécifiques pour le déploiement en production
+            
+            # Configuration pour le déploiement en production
+            local prod_servers=("prod1.pharmacie-efficace.com" "prod2.pharmacie-efficace.com")
+            local ssh_user="deploy"
+            local remote_dir="/var/www/pharmacie-efficace"
+            
+            for server in "${prod_servers[@]}"; do
+                log "Déploiement sur le serveur: $server"
+                
+                # Vérifier la connexion SSH
+                if ! ssh -q -o BatchMode=yes -o ConnectTimeout=5 $ssh_user@$server exit 2>/dev/null; then
+                    log "ERREUR: Impossible de se connecter au serveur $server"
+                    continue
+                fi
+                
+                # Mettre en maintenance
+                log "Activation du mode maintenance sur $server..."
+                ssh $ssh_user@$server "mkdir -p $remote_dir/maintenance && \
+                                     echo 'Maintenance en cours. Merci de votre patience.' > $remote_dir/maintenance/index.html"
+                
+                # Créer un backup
+                log "Création d'un backup sur $server..."
+                ssh $ssh_user@$server "mkdir -p $remote_dir/../backups/$backup_dir && \
+                                     cp -r $remote_dir/* $remote_dir/../backups/$backup_dir/ 2>/dev/null || true"
+                
+                # Synchroniser les fichiers
+                log "Synchronisation des fichiers avec $server..."
+                rsync -avz --delete -e ssh "$build_dir/" "$ssh_user@$server:$remote_dir/"
+                
+                # Mettre à jour les permissions
+                log "Mise à jour des permissions sur $server..."
+                ssh $ssh_user@$server "chown -R $ssh_user:www-data $remote_dir && \
+                                     chmod -R 755 $remote_dir && \
+                                     find $remote_dir -type f -exec chmod 644 {} \;"
+                
+                # Redémarrer les services
+                log "Redémarrage des services sur $server..."
+                ssh $ssh_user@$server "systemctl reload nginx || true"
+                
+                # Désactiver le mode maintenance
+                log "Désactivation du mode maintenance sur $server..."
+                ssh $ssh_user@$server "rm -rf $remote_dir/maintenance"
+                
+                log "Déploiement sur $server terminé avec succès!"
+            done
+            
+            log "Déploiement en production terminé avec succès sur tous les serveurs!"
+            log "URL: https://www.pharmacie-efficace.com"
             ;;
         *)
             log "ERREUR: Environnement non reconnu: $ENV"
