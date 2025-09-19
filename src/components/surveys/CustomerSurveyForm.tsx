@@ -1,3 +1,17 @@
+/**
+ * CustomerSurveyForm.tsx
+ * 
+ * Composant de formulaire d'évaluation client pour les pharmacies
+ * Permet aux clients de noter leur expérience et de fournir des commentaires
+ * sur différents aspects du service de la pharmacie.
+ * 
+ * Fonctionnalités principales :
+ * - Sélection de la pharmacie évaluée
+ * - Réponses à des questions fermées et ouvertes
+ * - Notation par étoiles
+ * - Soumission des réponses
+ */
+
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
@@ -13,7 +27,9 @@ import {
   Loader2
 } from 'lucide-react';
 
-// Types for pharmacies
+/**
+ * Interface décrivant une pharmacie
+ */
 interface Pharmacy {
   id: string;
   name: string;
@@ -22,37 +38,55 @@ interface Pharmacy {
   image: string;
 }
 
-// Types for survey questions and answers
+/**
+ * Types pour les questions et réponses du sondage
+ */
+
+/**
+ * Interface décrivant une option de réponse
+ */
 interface Option {
-  id: number;
-  optiontype_id: number;
-  libelle: string;
-  ordre: number;
-  poids: number | null;
+  id: number;           // Identifiant unique de l'option
+  optiontype_id: number; // Type d'option
+  libelle: string;      // Texte de l'option
+  ordre: number;        // Ordre d'affichage
+  poids: number | null; // Poids pour le calcul des scores
 }
 
+/**
+ * Interface décrivant une question du sondage
+ */
 interface Question {
-  id: number;
-  sondage_id: number | null;
-  optiontype_id: number | null;
-  libelle: string;
-  type: 'fermee' | 'ouverte';
-  est_question_profil: number;
-  target_group: string | null;
-  est_conditionnelle: number;
-  question_parent: number | null;
-  options: Option[];
+  id: number;                  // Identifiant unique de la question
+  sondage_id: number | null;   // ID du sondage parent
+  optiontype_id: number | null; // Type de question
+  libelle: string;             // Texte de la question
+  type: 'fermee' | 'ouverte';  // Type de réponse (fermée/ouverte)
+  est_question_profil: number; // Si c'est une question de profil
+  target_group: string | null; // Groupe cible
+  est_conditionnelle: number;  // Si la question est conditionnelle
+  question_parent: number | null; // ID de la question parente si conditionnelle
+  options: Option[];           // Options de réponse
 }
 
+/**
+ * Interface décrivant une réponse à une question
+ */
 interface Answer {
-  questionId: number;
-  optionId?: number;
-  value: string | number;
-  poids: number | null;
+  questionId: number;       // ID de la question
+  optionId?: number;        // ID de l'option sélectionnée (si applicable)
+  value: string | number;   // Valeur de la réponse
+  poids: number | null;     // Poids pour le calcul des scores
 }
 
+/**
+ * Interface décrivant les propriétés du composant
+ */
 interface ClientSurveyFormProps {
+  /** Fonction appelée lors de la soumission du formulaire */
   onSubmit: (data: any) => void;
+  
+  /** Fonction appelée lors du retour en arrière */
   onBack: () => void;
 }
 
@@ -188,21 +222,6 @@ const surveyQuestions: Question[] = [
     ]
   },
   {
-    id: 7,
-    sondage_id: 1,
-    optiontype_id: 1,
-    libelle: "Les médicaments recherchés étaient-ils disponibles ?",
-    type: "fermee",
-    est_question_profil: 0,
-    target_group: null,
-    est_conditionnelle: 0,
-    question_parent: null,
-    options: [
-      { id: 1, optiontype_id: 1, libelle: "Oui", ordre: 1, poids: 5 },
-      { id: 2, optiontype_id: 1, libelle: "Non", ordre: 2, poids: 1 }
-    ]
-  },
-  {
     id: 8,
     sondage_id: 1,
     optiontype_id: 2,
@@ -267,18 +286,22 @@ const surveyQuestions: Question[] = [
   }
 ];
 
+/**
+ * Composant de formulaire d'évaluation client
+ * Gère l'affichage des questions, la collecte des réponses et la soumission
+ */
 const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack }) => {
-  // Form state
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  // État du formulaire
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0); // Index de la question actuelle
+  const [answers, setAnswers] = useState<Answer[]>([]); // Réponses fournies par l'utilisateur
+  const [isCompleted, setIsCompleted] = useState<boolean>(false); // Si le formulaire est soumis
   
-  // Pharmacy selection state
-  const [showPharmacySelection, setShowPharmacySelection] = useState<boolean>(true);
-  const [selectedPharmacy, setSelectedPharmacy] = useState<string>('');
-  
-  // Submission state
-  const [dailySubmissions, setDailySubmissions] = useState<number>(0);
+  // État de sélection de la pharmacie
+  const [showPharmacySelection, setShowPharmacySelection] = useState<boolean>(true); // Gestion de la sélection d'une pharmacie
+  const [selectedPharmacy, setSelectedPharmacy] = useState<string>(''); // ID de la pharmacie sélectionnée
+
+  // État de soumission
+  const [dailySubmissions, setDailySubmissions] = useState<number>(0); // Nombre de soumissions quotidiennes
   const [startTime] = useState<number>(Date.now());
 
   useEffect(() => {
@@ -293,22 +316,40 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
     return surveyQuestions[currentQuestionIndex];
   };
 
+  /**
+   * Récupère la réponse actuelle pour la question en cours
+   * @returns La réponse actuelle ou undefined si aucune réponse
+   */
   const getCurrentAnswer = (): Answer | undefined => {
     const currentQuestion = getCurrentQuestion();
     return currentQuestion ? answers.find(a => a.questionId === currentQuestion.id) : undefined;
   };
 
+  // Fonction pour vérifier si on peut passer à la question suivante
   const canProceed = (): boolean => {
+    const currentQuestion = getCurrentQuestion();
+    if (!currentQuestion) return false;
+    
+    // Si la question n'est pas obligatoire, on peut passer à la suivante
+    if (currentQuestion.est_question_profil !== 1) return true;
+    
+    // Vérifie si une réponse a été fournie
     const answer = getCurrentAnswer();
-    const question = getCurrentQuestion();
-    return question?.type === 'ouverte' ? true : answer !== undefined;
+    return answer !== undefined && answer.value !== '';
   };
 
+  /**
+   * Gère la sélection d'une pharmacie
+   * @param pharmacyId - ID de la pharmacie sélectionnée
+   */
   const handlePharmacySelect = (pharmacyId: string): void => {
     setSelectedPharmacy(pharmacyId);
     setShowPharmacySelection(false);
   };
 
+  /**
+   * Soumet le formulaire d'évaluation
+   */
   const submitSurvey = async (): Promise<void> => {
     if (dailySubmissions >= 2) {
       return;
@@ -354,26 +395,53 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
     }
   };
 
+  /**
+   * Reviens à la question précédente
+   */
   const prevQuestion = (): void => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
-  const handleAnswer = (optionId: number, value: string | number, poids: number | null = null): void => {
-    const currentQuestion = getCurrentQuestion();
-    if (!currentQuestion) return;
-    
-    const newAnswers = answers.filter((a: Answer) => a.questionId !== currentQuestion.id);
-    newAnswers.push({ 
-      questionId: currentQuestion.id, 
-      optionId, 
-      value, 
-      poids: poids !== undefined ? poids : null
+  /**
+   * Gère la sélection d'une réponse
+   * @param questionId - ID de la question
+   * @param optionId - ID de l'option sélectionnée (pour les questions à choix multiples)
+   * @param value - Valeur de la réponse (pour les champs texte ouverts)
+   * @param poids - Poids de la réponse pour le calcul des scores
+   */
+  const handleAnswer = (questionId: number, optionId: number, value?: string | number, poids: number | null = null) => {
+    setAnswers(prev => {
+      const existingAnswerIndex = prev.findIndex(a => a.questionId === questionId);
+      const answerValue = value !== undefined ? value : optionId;
+      
+      if (existingAnswerIndex >= 0) {
+        // Mise à jour d'une réponse existante
+        const newAnswers = [...prev];
+        newAnswers[existingAnswerIndex] = { 
+          questionId, 
+          optionId, 
+          value: answerValue as string | number,
+          poids
+        };
+        return newAnswers;
+      } else {
+        // Ajout d'une nouvelle réponse
+        return [...prev, { 
+          questionId, 
+          optionId, 
+          value: answerValue as string | number,
+          poids
+        }];
+      }
     });
-    setAnswers(newAnswers);
   };
 
+  /**
+   * Gère la réponse à une question ouverte
+   * @param value - Valeur de la réponse
+   */
   const handleTextAnswer = (value: string): void => {
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion) return;
@@ -533,7 +601,7 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
           {currentQuestion.options.map((option) => (
             <button
               key={option.id}
-              onClick={() => handleAnswer(option.id, option.libelle, option.poids)}
+              onClick={() => handleAnswer(currentQuestion.id, option.id, option.libelle, option.poids)}
               className={`p-4 rounded-xl text-left transition-all duration-300 border-2 ${
                 currentAnswer?.optionId === option.id
                   ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg border-orange-600 transform scale-[1.02]'
@@ -585,7 +653,7 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
         {currentQuestion.options.map((option) => (
           <Button
             key={option.id}
-            onClick={() => handleAnswer(option.id, option.libelle, option.poids)}
+            onClick={() => handleAnswer(currentQuestion.id, option.id, option.libelle, option.poids)}
             variant={
               currentAnswer?.optionId === option.id
                 ? option.libelle === 'Oui' 

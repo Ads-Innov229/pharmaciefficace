@@ -10,18 +10,14 @@ PharmaciEfficace vise à fournir une solution complète de gestion de pharmacie 
 - [x] Authentification des utilisateurs
 - [x] Gestion des profils utilisateurs
 - [x] Tableau de bord de base
-- [x] Gestion des médicaments
 - [x] Système de recherche
 
 ### Version 1.1.0 (Planifiée)
-- [ ] Gestion des fournisseurs
-- [ ] Gestion des commandes
 - [ ] Notifications en temps réel
 - [ ] Export de données (PDF/Excel)
 
 ### Version 1.2.0 (À venir)
 - [ ] Module de facturation
-- [ ] Gestion des stocks avancée
 - [ ] Rapports analytiques
 - [ ] Tableaux de bord personnalisables
 
@@ -44,7 +40,6 @@ PharmaciEfficace vise à fournir une solution complète de gestion de pharmacie 
 - [ ] Mode hors ligne complet
 
 ### Long Terme
-- [ ] Intelligence artificielle pour la gestion des stocks
 - [ ] Analyse prédictive
 - [ ] Intégration avec les systèmes de santé nationaux
 

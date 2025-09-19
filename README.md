@@ -10,10 +10,8 @@ Application web moderne pour la gestion des pharmacies, développée avec React,
 
 - Interface utilisateur moderne et réactive
 - Gestion des utilisateurs et des rôles
-- Gestion des stocks et des médicaments
 - Système de recherche avancé
 - Tableau de bord analytique
-- Gestion des commandes et des fournisseurs
 - Export de données (PDF, Excel)
 - Mode hors ligne
 
@@ -87,10 +85,14 @@ Les contributions sont les bienvenues ! Veuillez lire notre [guide de contributi
 
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
-## 🙏 Remerciements
+## 🙏 Documentations 
 
 - [Vite](https://vitejs.dev/)
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TanStack Query](https://tanstack.com/query)
+- [Windsurf AI](https://windsurfrl.com/)
+- [GitHub](https://github.com/)
+- [Vercel](https://vercel.com/)
+

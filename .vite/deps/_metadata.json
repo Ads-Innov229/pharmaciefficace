@@ -1,139 +1,127 @@
 {
-  "hash": "53812f68",
-  "configHash": "78d17b5b",
-  "lockfileHash": "3737b99d",
-  "browserHash": "842f6317",
+  "hash": "1b3219e0",
+  "configHash": "8bceba14",
+  "lockfileHash": "502b9f97",
+  "browserHash": "85f708b9",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "d4440ed3",
+      "fileHash": "a30bf578",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "52e2ba91",
+      "fileHash": "e1e1b63b",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "5cfcb79e",
+      "fileHash": "005bba6f",
       "needsInterop": false
     },
     "zod": {
       "src": "../../node_modules/zod/index.js",
       "file": "zod.js",
-      "fileHash": "a20e0888",
+      "fileHash": "eb35e741",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "80c7bc51",
+      "fileHash": "63711c6d",
       "needsInterop": false
     },
     "zustand": {
       "src": "../../node_modules/zustand/esm/index.mjs",
       "file": "zustand.js",
-      "fileHash": "ddc56657",
+      "fileHash": "6b2a79ee",
       "needsInterop": false
     },
     "@tanstack/react-query": {
       "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
       "file": "@tanstack_react-query.js",
-      "fileHash": "a69cd611",
+      "fileHash": "2b0b3b54",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "b232c188",
+      "fileHash": "85cc7eb6",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "5d31027d",
+      "fileHash": "e0681a10",
       "needsInterop": true
-    },
-    "@radix-ui/react-label": {
-      "src": "../../node_modules/@radix-ui/react-label/dist/index.mjs",
-      "file": "@radix-ui_react-label.js",
-      "fileHash": "9755b466",
-      "needsInterop": false
-    },
-    "@radix-ui/react-select": {
-      "src": "../../node_modules/@radix-ui/react-select/dist/index.mjs",
-      "file": "@radix-ui_react-select.js",
-      "fileHash": "ba6091f6",
-      "needsInterop": false
     },
     "@radix-ui/react-slot": {
       "src": "../../node_modules/@radix-ui/react-slot/dist/index.mjs",
       "file": "@radix-ui_react-slot.js",
-      "fileHash": "f6062b79",
+      "fileHash": "b7262390",
       "needsInterop": false
     },
     "@tanstack/react-query-devtools": {
       "src": "../../node_modules/@tanstack/react-query-devtools/build/modern/index.js",
       "file": "@tanstack_react-query-devtools.js",
-      "fileHash": "78ebdb50",
+      "fileHash": "44b7ea63",
       "needsInterop": false
     },
     "bcryptjs": {
       "src": "../../node_modules/bcryptjs/index.js",
       "file": "bcryptjs.js",
-      "fileHash": "b1708af9",
+      "fileHash": "a979db0d",
       "needsInterop": false
     },
     "class-variance-authority": {
       "src": "../../node_modules/class-variance-authority/dist/index.mjs",
       "file": "class-variance-authority.js",
-      "fileHash": "8f4e95a3",
+      "fileHash": "b01e75b3",
       "needsInterop": false
     },
     "clsx": {
       "src": "../../node_modules/clsx/dist/clsx.mjs",
       "file": "clsx.js",
-      "fileHash": "f977e74c",
+      "fileHash": "047244e5",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "bc84c6cf",
+      "fileHash": "d3f45d3d",
       "needsInterop": true
     },
     "react-error-boundary": {
       "src": "../../node_modules/react-error-boundary/dist/react-error-boundary.development.esm.js",
       "file": "react-error-boundary.js",
-      "fileHash": "a03c94b1",
+      "fileHash": "ce8d317b",
       "needsInterop": false
     },
     "react-hot-toast": {
       "src": "../../node_modules/react-hot-toast/dist/index.mjs",
       "file": "react-hot-toast.js",
-      "fileHash": "b287592c",
+      "fileHash": "3931c15a",
       "needsInterop": false
     },
     "react-slick": {
       "src": "../../node_modules/react-slick/lib/index.js",
       "file": "react-slick.js",
-      "fileHash": "29c62e38",
+      "fileHash": "8b555499",
       "needsInterop": true
     },
     "tailwind-merge": {
       "src": "../../node_modules/tailwind-merge/dist/bundle-mjs.mjs",
       "file": "tailwind-merge.js",
-      "fileHash": "5986f4da",
+      "fileHash": "ad5d6bcf",
       "needsInterop": false
     },
     "zustand/middleware": {
       "src": "../../node_modules/zustand/esm/middleware.mjs",
       "file": "zustand_middleware.js",
-      "fileHash": "fedaf08d",
+      "fileHash": "b4d7ca5b",
       "needsInterop": false
     }
   },
@@ -147,17 +135,11 @@
     "chunk-F2B6VA73": {
       "file": "chunk-F2B6VA73.js"
     },
-    "chunk-KDVGFZWC": {
-      "file": "chunk-KDVGFZWC.js"
-    },
     "chunk-O6YRMYCO": {
       "file": "chunk-O6YRMYCO.js"
     },
-    "chunk-B2W76QAQ": {
-      "file": "chunk-B2W76QAQ.js"
-    },
-    "chunk-2YO72GR3": {
-      "file": "chunk-2YO72GR3.js"
+    "chunk-KDVGFZWC": {
+      "file": "chunk-KDVGFZWC.js"
     },
     "chunk-V6E3BSZD": {
       "file": "chunk-V6E3BSZD.js"

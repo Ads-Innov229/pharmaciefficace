@@ -21,8 +21,6 @@ const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const Home = lazy(() => import('@/pages/Home'));
 const Pharmacies = lazy(() => import('@/pages/PharmaciesPage') as unknown as Promise<{ default: React.ComponentType }>);
-const SearchPage = lazy(() => import('@/pages/SearchPage'));
-const RapportsPage = lazy(() => import('@/pages/RapportsPage'));
 const SondagesPage = lazy(() => import('@/pages/SondagesPage'));
 const SurveyPage = lazy(() => import('@/pages/SurveyPage'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
@@ -100,7 +98,6 @@ const App: React.FC = () => {
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/change-password" element={<ChangePassword />} />
                     <Route path="/pharmacies" element={<Pharmacies />} />
-                    <Route path="/recherche" element={<SearchPage />} />
                     <Route path="/sondages" element={<SondagesPage />} />
                     <Route path="/sondage" element={<SurveyPage />} />
                     <Route path="/contact" element={<ContactPage />} />
@@ -147,22 +144,6 @@ const App: React.FC = () => {
                       element={
                         <PrivateRoute>
                           <Profile />
-                        </PrivateRoute>
-                      }
-                    />
-                    <Route
-                      path="/rapports"
-                      element={
-                        <PrivateRoute>
-                          <RapportsPage />
-                        </PrivateRoute>
-                      }
-                    />
-                    <Route
-                      path="/sondages"
-                      element={
-                        <PrivateRoute>
-                          <SondagesPage />
                         </PrivateRoute>
                       }
                     />

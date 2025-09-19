@@ -1,4 +1,18 @@
-// ===== STAFFSURVEYFORM.TSX - Version Optimisée =====
+/**
+ * StaffSurveyForm.tsx
+ * 
+ * Composant de formulaire d'évaluation du personnel
+ * Permet aux employés de répondre à des questionnaires quotidiens ou globaux
+ * avec authentification par code secret.
+ * 
+ * Fonctionnalités principales :
+ * - Authentification par code secret
+ * - Deux types de questionnaires : quotidien et global
+ * - Gestion des réponses avec sauvegarde locale
+ * - Navigation entre les questions
+ * - Validation des réponses obligatoires
+ */
+
 import React, { useState } from 'react';
 import { 
   CheckCircle, 
@@ -20,40 +34,64 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
+/**
+ * Interface décrivant les props du composant StaffSurveyForm
+ */
 export interface StaffSurveyFormProps {
   onSubmit?: (data: any) => void;
   onBack?: () => void;
 }
 
+/**
+ * Interface décrivant la structure d'une question
+ */
+/**
+ * Définit la structure d'une question dans le formulaire
+ */
 interface Question {
-  id: string;
-  type: 'rating' | 'choice' | 'text' | 'yesno';
-  question: string;
-  options?: string[];
-  required: boolean;
-  category?: string;
+  id: string;                       // Identifiant unique de la question
+  type: 'rating' | 'choice' | 'text' | 'yesno';  // Type de la question
+  question: string;                 // Texte de la question
+  options?: string[];               // Options pour les questions à choix multiples
+  required: boolean;                // Si la réponse est obligatoire
+  category?: string;                // Catégorie pour le regroupement visuel
 }
 
+/**
+ * Structure d'une réponse fournie par l'utilisateur
+ */
+/**
+ * Structure d'une réponse fournie par l'utilisateur
+ */
 interface Answer {
-  questionId: string;
-  value: number | string | boolean;
+  questionId: string;               // ID de la question correspondante (obligatoire)
+  value: number | string | boolean; // Valeur de la réponse
 }
 
 const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
-  const { onSubmit, onBack } = props;
-  const [surveyType, setSurveyType] = useState<'daily' | 'global' | null>(null);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [showCodeInput, setShowCodeInput] = useState(true);
-  const [isCodeVisible, setIsCodeVisible] = useState(false);
-  const [secretCode, setSecretCode] = useState('');
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [authenticationError, setAuthenticationError] = useState('');
+  // Extraction des props
+  const { onSubmit } = props;
+  
+  // États du composant
+  const [surveyType, setSurveyType] = useState<'daily' | 'global' | null>(null);  // Type de questionnaire
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);           // Index de la question actuelle
+  const [answers, setAnswers] = useState<Answer[]>([]);                          // Réponses fournies
+  const [showCodeInput, setShowCodeInput] = useState(true);                      // Afficher le champ de code
+  const [isCodeVisible, setIsCodeVisible] = useState(false);                    // Afficher/masquer le code
+  const [secretCode, setSecretCode] = useState('');                             // Code secret saisi
+  const [isCompleted, setIsCompleted] = useState(false);                        // Questionnaire terminé
+  const [authenticationError, setAuthenticationError] = useState('');           // Erreur d'authentification
+  
+  // Horodatage de début pour calculer la durée du questionnaire
   const startTime = useState(Date.now())[0];
 
+  // Code secret de démonstration (à remplacer par une authentification sécurisée en production)
   const DEMO_SECRET_CODE = 'PHARMA2024';
 
-  // Questions optimisées avec design cohérent
+  /**
+   * Questions du questionnaire quotidien
+   * Évaluent différents aspects de la journée de travail
+   */
   const dailyQuestions: Question[] = [
     {
       id: 'workload',
@@ -92,6 +130,10 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
     }
   ];
 
+  /**
+   * Questions du questionnaire global
+   * Évaluent des aspects plus généraux du travail en pharmacie
+   */
   const globalQuestions: Question[] = [
     {
       id: 'job_satisfaction',
@@ -155,28 +197,61 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
   const questions = surveyType === 'daily' ? dailyQuestions : globalQuestions;
   const currentQuestion = questions?.[currentQuestionIndex];
 
-  // This function is used to handle the form submission in the JSX
-  const handleFormSubmit = (e: React.FormEvent) => {
+  /**
+   * Gère la soumission du code d'authentification
+   * Vérifie si le code saisi correspond au code de démonstration
+   */
+  const handleCodeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (secretCode.toUpperCase() === DEMO_SECRET_CODE) {
+    if (secretCode === DEMO_SECRET_CODE) {
       setShowCodeInput(false);
       setAuthenticationError('');
     } else {
-      setAuthenticationError('Code secret incorrect. Veuillez réessayer.');
+      setAuthenticationError('Code incorrect. Veuillez réessayer.');
     }
   };
 
+  /**
+   * Sélectionne le type de questionnaire
+   * Réinitialise les réponses et l'index de la question actuelle
+   */
   const handleSurveyTypeSelect = (type: 'daily' | 'global') => {
     setSurveyType(type);
     setCurrentQuestionIndex(0);
     setAnswers([]);
   };
 
-  const handleAnswer = (answer: string | boolean | number) => {
+  /**
+   * Gère la sélection d'une réponse par l'utilisateur
+   * @param value - La valeur de la réponse (peut être un nombre, une chaîne ou un booléen)
+   */
+  /**
+   * Gère la sélection d'une réponse par l'utilisateur
+   * @param value - La valeur de la réponse (peut être un nombre, une chaîne ou un booléen)
+   */
+  const handleAnswer = (value: any) => {
     if (!currentQuestion) return;
-    const newAnswers = answers.filter(a => a.questionId !== currentQuestion.id);
-    newAnswers.push({ questionId: currentQuestion.id, value: answer });
-    setAnswers(newAnswers);
+    
+    setAnswers(prev => {
+      const existingAnswerIndex = prev.findIndex(a => a.questionId === currentQuestion.id);
+      
+      if (existingAnswerIndex >= 0) {
+        // Mise à jour de la réponse existante
+        const newAnswers = [...prev];
+        newAnswers[existingAnswerIndex] = { 
+          ...newAnswers[existingAnswerIndex], 
+          value,
+          questionId: currentQuestion.id // S'assure que questionId est toujours défini
+        };
+        return newAnswers;
+      } else {
+        // Ajout d'une nouvelle réponse
+        return [...prev, { 
+          questionId: currentQuestion.id, 
+          value 
+        }];
+      }
+    });
   };
 
   const getCurrentAnswer = () => {
@@ -184,6 +259,63 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
     return answers.find(a => a.questionId === currentQuestion.id)?.value;
   };
 
+  /**
+   * Passe à la question suivante ou soumet le formulaire si c'est la dernière question
+   * Vérifie d'abord si on peut passer à la question suivante avec canProceed()
+   * Fait défiler la page vers le haut pour une meilleure expérience utilisateur
+   */
+  const handleNext = () => {
+    if (!canProceed()) return;
+    
+    // Si c'est la dernière question, soumettre le formulaire
+    if (currentQuestionIndex === questions.length - 1) {
+      if (onSubmit) {
+        const timeSpent = Math.floor((Date.now() - startTime) / 1000); // Durée en secondes
+        onSubmit({
+          surveyType,
+          answers,
+          duration: timeSpent,
+          completedAt: new Date().toISOString()
+        });
+      }
+      setIsCompleted(true);
+      return;
+    }
+    
+    // Sinon, passer à la question suivante
+    setCurrentQuestionIndex(prev => prev + 1);
+    
+    // Faire défiler vers le haut de la question
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /**
+   * Vérifie si l'utilisateur peut passer à la question suivante
+   * @returns true si la question n'est pas obligatoire ou si une réponse a été fournie
+   */
+  const canProceed = () => {
+    if (!currentQuestion?.required) return true;
+    const answer = getCurrentAnswer();
+    return answer !== undefined && answer !== '';
+  };
+
+  /**
+   * Retourne à la question précédente
+   * Ne fait rien si on est déjà à la première question
+   * Fait défiler la page vers le haut pour une meilleure expérience utilisateur
+   */
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
+      // Faire défiler vers le haut de la question
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  /**
+   * Composant pour les questions Oui/Non
+   * Affiche deux boutons pour répondre par oui ou non
+   */
   const YesNoComponent = () => {
     if (!currentQuestion) return null;
     const currentAnswer = getCurrentAnswer();
@@ -214,54 +346,10 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
     );
   };
 
-  const nextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      submitSurvey();
-    }
-    
-    if (currentQuestionIndex === questions.length - 1 && onBack) {
-      onBack();
-    }
-  };
-
-  const prevQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
-  const submitSurvey = async () => {
-    const completionTime = (Date.now() - startTime) / 1000;
-    
-    const surveyData = {
-      type: surveyType,
-      answers,
-      completionTime,
-      timestamp: new Date().toISOString(),
-      anonymous: true
-    };
-
-    try {
-      console.log('Données du sondage personnel:', surveyData);
-      setIsCompleted(true);
-      
-      if (onSubmit) {
-        onSubmit(surveyData);
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'envoi:', error);
-      alert('Une erreur s\'est produite. Veuillez réessayer.');
-    }
-  };
-
-  const canProceed = () => {
-    if (!currentQuestion?.required) return true;
-    const answer = getCurrentAnswer();
-    return answer !== undefined && answer !== '';
-  };
-
+  /**
+   * Composant pour les questions de notation (1 à 5 étoiles)
+   * Affiche des boutons cliquables pour sélectionner une note
+   */
   const RatingComponent = () => {
     const currentAnswer = getCurrentAnswer() as number;
     
@@ -356,7 +444,7 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
               </div>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="space-y-4">
+            <form onSubmit={handleCodeSubmit} className="space-y-4">
               <div className="relative">
                 <div className="relative">
                   <Input
@@ -364,7 +452,7 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
                     value={secretCode}
                     onChange={(e) => setSecretCode(e.target.value)}
                     placeholder="Code secret de la pharmacie"
-                    onKeyPress={(e) => e.key === 'Enter' && handleFormSubmit(e)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleCodeSubmit(e as any)}
                   />
                   <button
                     type="button"
@@ -646,13 +734,13 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
 
             {/* Navigation */}
             <div className="flex justify-between items-center mt-12 pt-6 border-t border-gray-200">
-              <Button
-                onClick={prevQuestion}
-                disabled={currentQuestionIndex === 0}
+              <Button 
+                onClick={handlePrevious}
                 variant="outline"
-                className="flex items-center gap-2"
+                className="mr-2"
+                disabled={currentQuestionIndex === 0}
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 Précédent
               </Button>
 
@@ -660,11 +748,10 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
                 <span className="text-sm text-gray-500">
                   Question {currentQuestionIndex + 1} sur {questions.length}
                 </span>
-                <Button
-                  onClick={nextQuestion}
+                <Button 
+                  onClick={handleNext}
+                  variant="default"
                   disabled={!canProceed()}
-                  variant="primary"
-                  className="flex items-center gap-2"
                 >
                   {currentQuestionIndex === questions.length - 1 ? 'Envoyer' : 'Question suivante'}
                   {currentQuestionIndex === questions.length - 1 
