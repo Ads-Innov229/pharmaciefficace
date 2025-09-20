@@ -151,14 +151,14 @@ deploy_app() {
             chown -R www-data:www-data "$dev_dir"
             
             log "Déploiement en développement terminé avec succès!"
-            log "URL: https://dev.pharmacie-efficace.com"
+            log "URL: https://dev.pharmacie-efficace.bj"
             ;;
             
         staging)
             log "Configuration pour l'environnement de staging"
             
             # Configuration pour le déploiement sur un serveur distant via SSH
-            local staging_server="staging.pharmacie-efficace.com"
+            local staging_server="staging.pharmacie-efficace.bj"
             local ssh_user="deploy"
             local remote_dir="/var/www/pharmacie-efficace-staging"
             
@@ -184,14 +184,14 @@ deploy_app() {
                                          systemctl reload nginx || true"
             
             log "Déploiement en staging terminé avec succès!"
-            log "URL: https://staging.pharmacie-efficace.com"
+            log "URL: https://staging.pharmacie-efficace.bj"
             ;;
             
         prod)
             log "Configuration pour l'environnement de production"
             
             # Configuration pour le déploiement en production
-            local prod_servers=("prod1.pharmacie-efficace.com" "prod2.pharmacie-efficace.com")
+            local prod_servers=("prod1.pharmacie-efficace.bj" "prod2.pharmacie-efficace.bj")
             local ssh_user="deploy"
             local remote_dir="/var/www/pharmacie-efficace"
             
@@ -236,7 +236,7 @@ deploy_app() {
             done
             
             log "Déploiement en production terminé avec succès sur tous les serveurs!"
-            log "URL: https://www.pharmacie-efficace.com"
+            log "URL: https://www.pharmacie-efficace.bj"
             ;;
         *)
             log "ERREUR: Environnement non reconnu: $ENV"

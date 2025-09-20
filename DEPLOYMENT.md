@@ -12,7 +12,7 @@ Ce document explique comment déployer l'application PharmaciEfficace à l'aide 
 
 1. Clonez le dépôt :
    ```bash
-   git clone https://github.com/votre-utilisateur/pharmacie-efficace.git
+   git clone https://github.com/ApollosADS/Pharmaciefficace.git
    cd pharmacie-efficace
    ```
 

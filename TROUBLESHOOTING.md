@@ -120,6 +120,6 @@ Ce document fournit des solutions aux problèmes courants que vous pourriez renc
 ## Obtenir de l'Aide
 
 Si vous ne trouvez pas de solution ici :
-1. Vérifiez les [issues GitHub](https://github.com/votre-utilisateur/PharmaciEfficace/issues) existantes
+1. Vérifiez les [issues GitHub](https://github.com/apollosads/PharmaciEfficace/issues) existantes
 2. Créez une nouvelle issue avec les détails de votre problème
 3. Incluez les messages d'erreur complets et les étapes pour reproduire le problème
