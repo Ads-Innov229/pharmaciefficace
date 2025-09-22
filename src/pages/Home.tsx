@@ -1,19 +1,31 @@
 import React from 'react';
-import { Navbar } from '../components/layout/Navbar';
+import { Navbar } from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import { HeroSection } from '@/components/home/HeroSection';
+import { FeaturesSection } from '@/components/home/FeaturesSection';
+import HowItWorksSection from '@/components/home/HowItWorksSection';
+import TestimonialsSection from '@/components/home/TestimonialsSection';
+import PricingSection from '@/components/home/PricingSection';
+import PartnersSection from '@/components/home/PartnersSection';
 
-// Version avec Navbar ajoutée
 const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <div className="p-8">
-      <h1 className="text-3xl font-bold text-center text-blue-600">
-        Bienvenue sur PharmaciEfficace
-      </h1>
-      <p className="mt-4 text-center text-gray-700">
-        Version minimale de la page d'accueil
-      </p>
-      </div>
+      
+      <main className="flex-1">
+        <HeroSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <TestimonialsSection />
+        <PricingSection />
+        <PartnersSection />
+        
+        {/* Espace supplémentaire avant le footer */}
+        <div className="py-8"></div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };

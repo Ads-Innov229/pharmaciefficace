@@ -22,9 +22,8 @@ const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 const ChangePassword = lazy(() => import('@/pages/ChangePassword'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Profile = lazy(() => import('@/pages/Profile'));
-// Chargement direct pour le débogage
-// Utilisation d'un composant minimal pour le débogage
-const Home = lazy(() => import('@/components/test/MinimalHome'));
+// Page d'accueil principale
+const Home = lazy(() => import('@/pages/Home'));
 const Pharmacies = lazy(() => import('@/pages/PharmaciesPage') as unknown as Promise<{ default: React.ComponentType }>);
 const SondagesPage = lazy(() => import('@/pages/SondagesPage'));
 const SurveyPage = lazy(() => import('@/pages/SurveyPage'));
