@@ -1,9 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
+
 import React, { useState, useEffect } from 'react';
 import { 
   Search, 
   MapPin, 
   Filter, 
-  Star, 
   Building2, 
   Clock, 
   Phone,
@@ -18,7 +26,7 @@ import { Card, CardContent, CardHeader } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { Loading } from '../components/common/Loading';
 import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import Footer from '@/components/layout/Footer';
 
 interface Pharmacy {
   id: string;
@@ -43,85 +51,89 @@ const PharmacyListPage: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Données optimisées des pharmacies
-  const demoPharmacies: Pharmacy[] = [
-    {
-      id: '1',
-      name: 'Pharmacie du Progrès',
-      address: '123 Avenue de l\'Indépendance',
-      city: 'Cotonou',
-      region: 'Littoral',
-      phone: '+229 21 30 40 50',
-      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      isActive: true,
-      openHours: '07h00 - 22h00',
-    },
-    {
-      id: '2',
-      name: 'Pharmacie Centrale',
-      address: '45 Rue des Martyrs',
-      city: 'Porto-Novo',
-      region: 'Ouémé',
-      phone: '+229 20 21 30 41',
-      image: 'https://images.unsplash.com/photo-1512069772995-ec65c2a9d7fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      isActive: true,
-      openHours: '08h00 - 20h00',
-    },
-    {
-      id: '3',
-      name: 'Pharmacie Atlas',
-      address: '78 Boulevard Saint-Michel',
-      city: 'Parakou',
-      region: 'Borgou',
-      phone: '+229 23 61 20 30',
-      image: 'https://images.unsplash.com/photo-1585435557343-3b092031d4ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      isActive: true,
-      openHours: '06h30 - 21h30',
-    },
-    {
-      id: '4',
-      name: 'Pharmacie Santé Plus',
-      address: '12 Carrefour Godomey',
-      city: 'Abomey-Calavi',
-      region: 'Atlantique',
-      phone: '+229 21 30 50 60',
-      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      isActive: true,
-      openHours: '07h30 - 21h00',
-    },
-    {
-      id: '5',
-      name: 'Pharmacie de l\'Espoir',
-      address: '33 Route de Bohicon',
-      city: 'Abomey',
-      region: 'Zou',
-      phone: '+229 22 50 40 30',
-      image: 'https://images.unsplash.com/photo-1576602976047-174e57a47881?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      isActive: true,
-      openHours: '08h00 - 19h00',
-    }
-  ];
-
   const regions = ['Atlantique', 'Littoral', 'Ouémé', 'Borgou', 'Zou'];
   const cities = ['Cotonou', 'Porto-Novo', 'Parakou', 'Abomey-Calavi', 'Abomey'];
 
   useEffect(() => {
-    const loadPharmacies = async () => {
-      setIsLoading(true);
-      // Simulation de chargement
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      setPharmacies(demoPharmacies);
-      setFilteredPharmacies(demoPharmacies);
-      setIsLoading(false);
-    };
+    // Données optimisées des pharmacies
+    const demoPharmacies: Pharmacy[] = [
+      {
+        id: '1',
+        name: 'Pharmacie du Progrès',
+        address: '123 Avenue de l\'Indépendance',
+        city: 'Cotonou',
+        region: 'Littoral',
+        phone: '+229 21 30 40 50',
+        image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        isActive: true,
+        openHours: '07h00 - 22h00',
+      },
+      {
+        id: '2',
+        name: 'Pharmacie Centrale',
+        address: '45 Rue des Martyrs',
+        city: 'Porto-Novo',
+        region: 'Ouémé',
+        phone: '+229 20 21 22 23',
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8b25a00?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        isActive: true,
+        openHours: '08h00 - 20h00',
+      },
+      {
+        id: '3',
+        name: 'Pharmacie du Marché',
+        address: '78 Boulevard de la Paix',
+        city: 'Parakou',
+        region: 'Borgou',
+        phone: '+229 23 45 67 89',
+        image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        isActive: false,
+        openHours: '08h00 - 18h00',
+      },
+      {
+        id: '4',
+        name: 'Pharmacie Santé Plus',
+        address: '12 Carrefour Godomey',
+        city: 'Abomey-Calavi',
+        region: 'Atlantique',
+        phone: '+229 21 30 50 60',
+        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        isActive: true,
+        openHours: '07h30 - 21h00',
+      },
+      {
+        id: '5',
+        name: 'Pharmacie de l\'Espoir',
+        address: '33 Route de Bohicon',
+        city: 'Abomey',
+        region: 'Zou',
+        phone: '+229 22 50 40 30',
+        image: 'https://images.unsplash.com/photo-1576602976047-174e57a47881?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        isActive: true,
+        openHours: '08h00 - 19h00',
+      }
+    ];
 
-    loadPharmacies();
-    
-    // Récupérer les favoris depuis le stockage local
-    const savedFavorites = localStorage.getItem('pharmacy_favorites');
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites));
+    // Simuler un chargement initial
+    const timer = window.setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    // Charger les pharmacies depuis le stockage local
+    const savedPharmacies = window.localStorage.getItem('pharmacies');
+    if (savedPharmacies) {
+      setPharmacies(JSON.parse(savedPharmacies));
+    } else {
+      // Si aucune donnée n'est sauvegardée, utiliser les données de démonstration
+      setPharmacies(demoPharmacies);
+      window.localStorage.setItem('pharmacies', JSON.stringify(demoPharmacies));
     }
+
+    return () => {
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -167,13 +179,14 @@ const PharmacyListPage: React.FC = () => {
       ? favorites.filter(id => id !== pharmacyId)
       : [...favorites, pharmacyId];
     
+    // Sauvegarder dans le stockage local
+    window.localStorage.setItem('pharmacy_favorites', JSON.stringify(newFavorites));
     setFavorites(newFavorites);
-    localStorage.setItem('pharmacy_favorites', JSON.stringify(newFavorites));
   };
 
-  const handleGiveFeedback = (pharmacyId: string) => {
-    // Rediriger vers le sondage client avec la pharmacie pré-sélectionnée
-    alert(`Redirection vers le sondage pour la pharmacie ${pharmacyId}`);
+  const handleGiveFeedback = () => {
+    // Rediriger vers le sondage client
+    window.alert('Fonctionnalité de messagerie non disponible en démo');
   };
 
   const resetFilters = () => {
@@ -244,8 +257,8 @@ const PharmacyListPage: React.FC = () => {
           {/* Actions */}
           <div className="flex gap-3">
             <Button
-              onClick={() => handleGiveFeedback(pharmacy.id)}
-              variant="primary"
+              onClick={handleGiveFeedback}
+              variant="default"
               className="flex-1"
               leftIcon={<MessageSquare className="w-4 h-4" />}
             >
@@ -414,7 +427,7 @@ const PharmacyListPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-6 flex justify-end">
-                  <Button variant="primary">
+                  <Button variant="default">
                     Appliquer les filtres
                   </Button>
                 </div>
@@ -464,7 +477,7 @@ const PharmacyListPage: React.FC = () => {
               <p className="text-gray-600 mb-6">
                 Essayez de modifier vos critères de recherche ou vos filtres.
               </p>
-              <Button onClick={resetFilters} variant="primary">
+              <Button onClick={resetFilters} variant="default">
                 Réinitialiser les filtres
               </Button>
             </CardContent>

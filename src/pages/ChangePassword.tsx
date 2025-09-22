@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-undef */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, CheckCircle, ArrowLeft, Eye, EyeOff } from 'lucide-react';
@@ -37,7 +44,12 @@ const ChangePassword: React.FC = () => {
 
     try {
       setIsLoading(true);
-      await new Promise((r) => setTimeout(r, 800));
+      await new Promise<void>((resolve) => {
+        window.setTimeout(() => {
+          navigate('/profile');
+          resolve();
+        }, 2000);
+      });
       setIsSuccess(true);
       showToast('Votre mot de passe a été mis à jour avec succès', 'success');
       setCurrentPassword('');

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useToast } from '../../hooks/useToast';
 import { Building2, Edit, Save, Upload, X } from 'lucide-react';
 
+// Types
 type PharmacyProfile = {
   id: string;
   name: string;
@@ -32,41 +33,72 @@ const defaultValues: PharmacyProfile = {
 };
 
 const ProfilePharmacy: React.FC = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  // États
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [logoPreview, setLogoPreview] = useState<string | null>(defaultValues.logo);
+
+  // Hooks
   const { register, handleSubmit, reset, formState: { errors } } = useForm<PharmacyProfile>({ defaultValues });
   const { showToast } = useToast();
 
-  const onSubmit: SubmitHandler<PharmacyProfile> = async () => {
+  // Gestion de la soumission du formulaire
+  const onSubmit: SubmitHandler<PharmacyProfile> = async (data) => {
     try {
       setIsLoading(true);
       // Simuler un appel API
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       // TODO: Remplacer par un appel API réel
       // await pharmacyService.updateProfile(data);
-      
+      console.log('Données du formulaire:', data);
       showToast('Profil mis à jour avec succès', 'success');
       setIsEditing(false);
     } catch (error) {
       showToast('Erreur lors de la mise à jour du profil', 'error');
+      console.error('Erreur:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Gestion du changement de logo
+  const handleLogoChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+    if (!file) return;
 
+    // Vérifier la taille du fichier (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('La taille du fichier ne doit pas dépasser 5MB', 'error');
+      e.target.value = ''; // Réinitialiser l'input
+      return;
+    }
+
+    // Vérifier le type MIME
+    if (!file.type.startsWith('image/')) {
+      showToast('Veuillez sélectionner un fichier image valide', 'error');
+      e.target.value = ''; // Réinitialiser l'input
+      return;
+    }
+
+    const reader = new FileReader();
+    // Gestion de la lecture réussie
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setLogoPreview(event.target.result as string);
+      }
+    };
+    // Gestion des erreurs
+    reader.onerror = () => {
+      console.error('Erreur lors de la lecture du fichier');
+      showToast('Erreur lors de la lecture du fichier', 'error');
+      // Réinitialiser l'input en cas d'erreur
+      if (e.target) e.target.value = '';
+    };
+    // Lire le fichier
+    reader.readAsDataURL(file);
+  }, [showToast]);
+
+  // Gestion de l'annulation des modifications
   const handleCancel = () => {
     reset();
     setIsEditing(false);
@@ -107,7 +139,10 @@ const ProfilePharmacy: React.FC = () => {
           )}
         </div>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            void handleSubmit(onSubmit)(e);
+          }}>
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
               <div className="sm:col-span-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">

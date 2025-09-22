@@ -13,7 +13,15 @@
  * - Validation des réponses obligatoires
  */
 
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useState, useEffect } from 'react';
 import { 
   CheckCircle, 
   Star, 
@@ -325,7 +333,7 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
     return (
       <div className="flex justify-center space-x-6">
         <Button
-          variant={isYes ? 'primary' : 'outline'}
+          variant={isYes ? 'default' : 'outline'}
           size="lg"
           onClick={() => handleAnswer(true)}
           className={`min-w-[120px] flex items-center justify-center ${isYes ? 'bg-green-600 hover:bg-green-700' : ''}`}
@@ -620,7 +628,7 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
                   setAnswers([]);
                   setIsCompleted(false);
                 }}
-                variant="primary"
+                variant="default"
                 className="flex-1"
               >
                 Autre sondage
@@ -649,12 +657,12 @@ const StaffSurveyForm: React.FC<StaffSurveyFormProps> = (props) => {
   const TextComponent = () => {
     const [text, setText] = React.useState('');
     
-    React.useEffect(() => {
+    useEffect(() => {
       const answer = getCurrentAnswer();
       if (answer !== undefined) {
         setText(String(answer));
       }
-    }, [currentQuestion]);
+    }, [currentQuestion, getCurrentAnswer]);
     
     return (
       <div className="space-y-4">

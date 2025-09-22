@@ -167,8 +167,15 @@ const PartnersSection: React.FC = () => {
   );
 };
 
+// Types pour les propriétés des flèches de navigation
+interface ArrowProps {
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
+}
+
 // Composants personnalisés pour les flèches de navigation
-const NextArrow = (props: any) => {
+const NextArrow = (props: ArrowProps) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -181,7 +188,7 @@ const NextArrow = (props: any) => {
   );
 };
 
-const PrevArrow = (props: any) => {
+const PrevArrow = (props: ArrowProps) => {
   const { className, style, onClick } = props;
   return (
     <div

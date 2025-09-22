@@ -10,19 +10,23 @@ import {
   Shield
 } from 'lucide-react';
 
+// Désactiver la vérification de type pour les icônes Lucide
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type IconType = React.ComponentType<any>;
+
 interface Step {
   number: string;
   title: string;
   description: string;
   details: string[];
-  icon: React.ComponentType<any>;
+  icon: IconType;
   color: string;
 }
 
 interface SubStep {
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: IconType;
 }
 
 const HowItWorksSection: React.FC = () => {

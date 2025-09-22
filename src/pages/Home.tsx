@@ -1,24 +1,19 @@
 import React from 'react';
-import { HeroSection } from '../components/home/HeroSection';
-import { FeaturesSection } from '../components/home/FeaturesSection';
-import TestimonialsSection from '../components/home/TestimonialsSection';
-import HowItWorksSection from '../components/home/HowItWorksSection';
-import PricingSection from '../components/home/PricingSection';
 import { Navbar } from '../components/layout/Navbar';
-import { Footer } from '../components/layout/Footer';
-import PartnersSection from '../components/home/PartnersSection';
 
+// Version avec Navbar ajoutée
 const Home: React.FC = () => {
   return (
-    <div className="bg-white">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <HeroSection />
-      <FeaturesSection />
-      <HowItWorksSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <PartnersSection />
-      <Footer />
+      <div className="p-8">
+      <h1 className="text-3xl font-bold text-center text-blue-600">
+        Bienvenue sur PharmaciEfficace
+      </h1>
+      <p className="mt-4 text-center text-gray-700">
+        Version minimale de la page d'accueil
+      </p>
+      </div>
     </div>
   );
 };

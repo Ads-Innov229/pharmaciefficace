@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 import { createContext, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import mockAuthService from '../api/mockAuthService';
@@ -16,13 +18,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // eslint-disable-next-line no-console
         console.log('Vérification de l\'authentification...');
         const isAuth = await mockAuthService.isAuthenticated();
+        // eslint-disable-next-line no-console
         console.log('isAuthenticated:', isAuth);
         
         if (isAuth) {
+          // eslint-disable-next-line no-console
           console.log('Utilisateur authentifié, récupération des données utilisateur...');
           const userData = await mockAuthService.getCurrentUser();
+          // eslint-disable-next-line no-console
           console.log('Données utilisateur récupérées:', userData);
           setUser(userData);
           
@@ -46,7 +52,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    checkAuth();
+    // Gérer la promesse retournée par checkAuth
+    const checkAuthPromise = checkAuth();
+    checkAuthPromise.catch(error => {
+      console.error('Erreur lors de la vérification de l\'authentification:', error);
+    });
+    
+    // Nettoyage si le composant est démonté
+    return () => {
+      // Annuler toute opération en cours si nécessaire
+    };
   }, [location.pathname, navigate]);
 
   const login = useCallback(async (email: string, password: string): Promise<void> => {

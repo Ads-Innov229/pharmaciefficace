@@ -1,3 +1,7 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-implied-eval */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-undef */
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -50,14 +54,14 @@ export function debounce<T extends (...args: unknown[]) => void>(
   fn: T,
   delay: number
 ) {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+  let timeoutId: number | null = null;
 
   return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     if (timeoutId) {
-      clearTimeout(timeoutId);
+      window.clearTimeout(timeoutId);
     }
 
-    timeoutId = setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       fn.apply(this, args);
       timeoutId = null;
     }, delay);

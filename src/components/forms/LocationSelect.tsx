@@ -55,7 +55,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
       }
     };
 
-    loadDepartements();
+    void loadDepartements();
   }, []);
 
   // Charger les communes quand le département change
@@ -79,7 +79,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         }
       };
 
-      loadCommunes();
+      void loadCommunes();
     } else {
       setCommunes([]);
       setArrondissements([]);
@@ -106,7 +106,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         }
       };
 
-      loadArrondissements();
+      void loadArrondissements();
     } else {
       setArrondissements([]);
       setVillages([]);
@@ -130,7 +130,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         }
       };
 
-      loadVillages();
+      void loadVillages();
     } else {
       setVillages([]);
     }

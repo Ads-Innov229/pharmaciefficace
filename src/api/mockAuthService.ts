@@ -187,7 +187,7 @@ const mockAuthService = {
       };
       
       // Encode l'en-tête et la charge utile en base64 (compatible navigateur)
-      const toBase64 = (obj: any) => {
+      const toBase64 = (obj: Record<string, unknown>) => {
         const str = JSON.stringify(obj);
         return typeof window !== 'undefined' 
           ? window.btoa(unescape(encodeURIComponent(str)))
@@ -205,7 +205,8 @@ const mockAuthService = {
       localStorage.setItem('auth_token', token);
       
       // Crée l'objet utilisateur à retourner (sans le mot de passe)
-      const { password, ...userWithoutPassword } = user;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: _, ...userWithoutPassword } = user;
       
       return {
         user: userWithoutPassword,
@@ -294,7 +295,8 @@ const mockAuthService = {
       }
       
       // Retourner l'utilisateur sans le mot de passe
-      const { password, ...userWithoutPassword } = user;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: _, ...userWithoutPassword } = user;
       return userWithoutPassword;
     } catch (error: unknown) {
       console.error('Erreur lors de la récupération de l\'utilisateur:', error);
@@ -441,7 +443,8 @@ const mockAuthService = {
       }
       
       // Retourne l'utilisateur mis à jour (sans le mot de passe)
-      const { password, ...userWithoutPassword } = user;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: _, ...userWithoutPassword } = user;
       return userWithoutPassword;
       
     } catch (error: unknown) {
@@ -505,7 +508,8 @@ const mockAuthService = {
       }
       
       // Retourne tous les utilisateurs sans les mots de passe
-      return mockUsers.map(({ password, ...user }) => user);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      return mockUsers.map(({ password: _, ...user }) => user);
       
     } catch (error: unknown) {
       console.error('Erreur lors de la récupération des utilisateurs:', error);
@@ -595,7 +599,8 @@ const mockAuthService = {
       mockUsers.push(newUser);
       
       // Retourne l'utilisateur créé sans le mot de passe
-      const { password, ...userWithoutPassword } = newUser;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: _, ...userWithoutPassword } = newUser;
       return userWithoutPassword;
       
     } catch (error: unknown) {

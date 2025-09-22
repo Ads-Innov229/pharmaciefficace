@@ -20,7 +20,7 @@ import { useAuthStore } from '../../store/authStore';
 // Assets
 import logo from '../../assets/logo1.png';
 
-export const Navbar: React.FC = () => {
+export const Navbar = (): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);

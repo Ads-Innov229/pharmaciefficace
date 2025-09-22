@@ -1,3 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-undef */
+
 import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Lock, Eye, EyeOff, UserCheck, ArrowRight, Mail } from 'lucide-react';

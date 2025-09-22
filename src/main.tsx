@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable no-undef */
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

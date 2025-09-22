@@ -37,8 +37,13 @@ interface Answer {
   poids: number | null;
 }
 
+interface SurveySubmissionResult {
+  success: boolean;
+  answers: Answer[];
+}
+
 interface ClientSurveyFormProps {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: SurveySubmissionResult) => void;
   onBack: () => void;
 }
 
@@ -284,18 +289,21 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
       return false;
     }
 
-    const completionTime = (Date.now() - startTime) / 1000;
-    
-    const surveyData = {
-      sondage_type: 'client',
-      pharmacyId: selectedPharmacy,
-      answers,
-      completionTime,
-      timestamp: new Date().toISOString()
-    };
-
     try {
+      const completionTime = (Date.now() - startTime) / 1000;
+      
+      const surveyData = {
+        sondage_type: 'client',
+        pharmacyId: selectedPharmacy,
+        answers,
+        completionTime,
+        timestamp: new Date().toISOString()
+      };
+
       console.log('Données du sondage client:', surveyData);
+      
+      // Simuler un appel API asynchrone
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Incrémenter le compteur quotidien
       const today = new Date().toDateString();
@@ -323,11 +331,16 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
   };
 
   // Navigation functions
-  const nextQuestion = (): void => {
+  const nextQuestion = async (): Promise<void> => {
     if (currentQuestionIndex < surveyQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      submitSurvey();
+      // Gérer la soumission du formulaire
+      const success = await submitSurvey();
+      if (success) {
+        onSubmit({ success: true, answers });
+        setIsCompleted(true);
+      }
     }
   };
 
@@ -665,7 +678,10 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
         </div>
 
         {/* Contenu de la question */}
-        <form onSubmit={handleFormSubmit} className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-2xl">
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          void handleFormSubmit(e);
+        }} className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-2xl">
           {currentQuestion && (
             <>
               <div className="mb-6">
@@ -709,7 +725,7 @@ const ClientSurveyForm: React.FC<ClientSurveyFormProps> = ({ onSubmit, onBack })
             </button>
 
             <button
-              onClick={nextQuestion}
+              onClick={() => void nextQuestion()}
               disabled={!canProceed()}
               type="button"
               className={`group relative flex-1 flex items-center justify-center px-6 py-4 rounded-xl font-semibold transition-all duration-200 border-2 font-['Poppins'] overflow-hidden ${

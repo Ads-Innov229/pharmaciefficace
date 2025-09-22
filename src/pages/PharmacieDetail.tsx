@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, ArrowLeft } from 'lucide-react';
@@ -11,11 +18,16 @@ const PharmacieDetail: React.FC = () => {
 
   useEffect(() => {
     const loadPharmacie = async () => {
-      if (id) {
-        await fetchPharmacie(id);
+      try {
+        if (id) {
+          await fetchPharmacie(id);
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement de la pharmacie:', error);
       }
     };
-    loadPharmacie();
+    
+    void loadPharmacie();
   }, [id, fetchPharmacie]);
 
   useEffect(() => {

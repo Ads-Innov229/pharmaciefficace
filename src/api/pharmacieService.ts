@@ -18,7 +18,7 @@ export const pharmacieService = {
     if (departement) params.append('departement', departement);
     if (commune) params.append('commune', commune);
     
-    const response = await apiClient.get(`/pharmacies?${params}`);
+    const response = await apiClient.get(`/pharmacies?${params.toString()}`);
     return response.data;
   },
 

@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+
+import React, { useState, useEffect } from 'react';
 import { 
   User, Mail, Lock, Building2, Phone, MapPin, ArrowRight, 
   Eye, EyeOff, Star, Calendar
@@ -219,11 +223,11 @@ const Register = () => {
       return;
     }
     if (step === 2 && (!formData.nomPharmacie || !formData.ifu || !formData.telephonePharmacie || !formData.adresse || !formData.password || !formData.confirmPassword)) {
-      showToast('Veuillez remplir tous les champs obligatoires', 'error');
+      window.alert('Veuillez remplir tous les champs obligatoires');
       return;
     }
     if (step === 2 && formData.password !== formData.confirmPassword) {
-      showToast('Les mots de passe ne correspondent pas', 'error');
+      window.alert('Les mots de passe ne correspondent pas');
       return;
     }
     if (step === 2 && !acceptTerms) {

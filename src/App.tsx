@@ -10,7 +10,10 @@ import { queryClient } from '@/lib/queryClient';
 // Types
 import type { PropsWithChildren } from 'react';
 
-interface PrivateRouteProps extends PropsWithChildren {}
+// Interface pour les routes protégées
+interface PrivateRouteProps extends PropsWithChildren {
+  allowedRoles?: string[];  // Pour la gestion des rôles
+}
 
 // Pages - Chargement paresseux pour le code splitting
 const Login = lazy(() => import('@/pages/Login'));
@@ -19,7 +22,9 @@ const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 const ChangePassword = lazy(() => import('@/pages/ChangePassword'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Profile = lazy(() => import('@/pages/Profile'));
-const Home = lazy(() => import('@/pages/Home'));
+// Chargement direct pour le débogage
+// Utilisation d'un composant minimal pour le débogage
+const Home = lazy(() => import('@/components/test/MinimalHome'));
 const Pharmacies = lazy(() => import('@/pages/PharmaciesPage') as unknown as Promise<{ default: React.ComponentType }>);
 const SondagesPage = lazy(() => import('@/pages/SondagesPage'));
 const SurveyPage = lazy(() => import('@/pages/SurveyPage'));
@@ -50,10 +55,6 @@ const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetError
 };
 
 // Composant pour les routes protégées
-interface PrivateRouteProps extends PropsWithChildren {
-  allowedRoles?: string[];  // Pour la gestion des rôles
-}
-
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, allowedRoles }) => {
   const context = useContext(AuthContext);
   const location = useLocation();

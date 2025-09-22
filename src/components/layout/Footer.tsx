@@ -1,7 +1,7 @@
 import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Linkedin, Instagram, Shield, Heart, Star as Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export const Footer = () => {
+const Footer = () => {
   const quickLinks = [
     { name: 'Accueil', path: '/' },
     { name: 'Pharmacies', path: '/pharmacies' },
