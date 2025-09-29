@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PharmaciEfficace
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -96,3 +97,7 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de
 - [GitHub](https://github.com/)
 - [Vercel](https://vercel.com/)
 
+=======
+# pharmaciefficace
+Un projet de pharmacie pour gestion de la clientele et des RH
+>>>>>>> d7d69db8293d319b01e5e5aa593d23d1c4f7fb74
