@@ -47,7 +47,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       'sm': 'sm',
       'default': 'default',
       'lg': 'lg',
-      'xl': 'xl',
+      'xl': 'lg', // Map 'xl' to 'lg' as Radix UI doesn't support 'xl' size
       'icon': 'icon'
     };
 

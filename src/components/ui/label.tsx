@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "../../lib/utils"
 
+// Définition des variantes du label
 const labelVariants = cva(
   "text-sm font-medium leading-5 text-neutral-700 transition-colors peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
   {
@@ -26,29 +26,35 @@ const labelVariants = cva(
   }
 )
 
-interface LabelProps extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
-  VariantProps<typeof labelVariants> {
+// Extension des props pour inclure les props HTML standard et les variantes
+interface LabelProps 
+  extends Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'className'>,
+    VariantProps<typeof labelVariants> {
   htmlFor?: string
   required?: boolean
   optional?: boolean
+  className?: string
 }
 
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  LabelProps
->(({ className, variant, size, required, optional, ...props }, ref) => {
-  const variantClass = required ? 'required' : optional ? 'optional' : variant;
-  
-  return (
-    <LabelPrimitive.Root
-      ref={ref}
-      className={cn(
-        labelVariants({ variant: variantClass, size, className })
-      )}
-      {...props}
-    />
-  )
-})
-Label.displayName = LabelPrimitive.Root.displayName
+// Composant Label avec support des variantes et des enfants
+const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+  ({ className, variant, size, required, optional, children, ...props }, ref) => {
+    const variantClass = required ? 'required' : optional ? 'optional' : variant;
+    
+    return (
+      <LabelPrimitive.Root
+        ref={ref}
+        className={cn(
+          labelVariants({ variant: variantClass as any, size, className })
+        )}
+        {...props}
+      >
+        {children}
+      </LabelPrimitive.Root>
+    )
+  }
+)
+
+Label.displayName = "Label"
 
 export { Label, type LabelProps }
