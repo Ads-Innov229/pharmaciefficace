@@ -1,13 +1,13 @@
-name: NodeJS with Webpack
+name: Vite CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,16 +16,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
+    
     - name: Install dependencies
       run: npm ci
-
-    - name: Build with Vite
+      
+    - name: Lint
+      run: npm run lint
+      
+    - name: Build
+      run: npm run build
+      
+    - name: Run tests (if you have them)
       run: |
-        npm run build
+        if [ -f "package.json" ] && grep -q '\"test\":' package.json; then
+          npm test
+        else
+          echo "No tests configured, skipping..."
+        fi
