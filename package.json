@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --config eslint.config.js",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\",
+    "vercel-build": "vite build"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",

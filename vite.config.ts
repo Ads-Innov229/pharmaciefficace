@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    base: process.env.NODE_ENV === 'production' ? '/front_PharmaSurvy/' : '/',
+    base: '/',
     plugins: [
       ...plugins,
       createHtmlPlugin({
